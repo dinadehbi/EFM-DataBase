@@ -1,0 +1,31 @@
+classDiagram
+    class User {
+        +id: int
+        +name: string
+    }
+
+    class Randonnée {
+        +id: int
+        +titre: string
+        +description: string
+        +compteVues: int
+    }
+
+    class Avis {
+        +id: int
+        +contenu: string
+        +compteVues: int
+    }
+
+    class Suggestion {
+        +id: int
+        +content: string
+    }
+
+ 
+
+    User "1" --o "many" Randonnée : propose
+    User "1" --o "many" Avis : donne
+    Randonnée "1" --o "many" Avis : reçoit
+    Avis "many" --o "many" Suggestion : contient
+ 
