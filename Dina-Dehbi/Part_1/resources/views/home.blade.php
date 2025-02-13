@@ -1,11 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5">
+<div>
     @if($hikes->count())
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+        <table>
+            <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Title</th>
                     <th>User</th>
                     <th>Description</th>
@@ -19,33 +20,35 @@
                 @foreach ($hikes as $hike)
                     @if($hike->title && $hike->user && $hike->image)
                         @php
-                            // Check if there are more than 10 reviews
                             $totalReviews = $hike->reviews->count();
                             $isRecommended = $hike->reviews->filter(function($review) {
                                 return $review->isRecommended;
-                            })->count() > $totalReviews / 2; // Majority recommendation
+                            })->count() > $totalReviews / 2;
                         @endphp
                         <tr>
+                            <td>
+                                <img src="{{ asset($hike->image) }}" alt="Hike Image" width="100">
+                            </td>
                             <td>{{ $hike->title }}</td>
                             <td>{{ $hike->user->name }}</td>
                             <td>{{ $hike->description ?? 'No description' }}</td>
                             <td>{{ $hike->views ?? 0 }}</td>
                             <td>
                                 @if($isRecommended)
-                                    <span class="text-success font-weight-bold">Recommended Hike</span>
+                                    Recommended Hike
                                 @else
-                                    <span class="text-danger">Not recommended</span>
+                                    Not recommended
                                 @endif
                             </td>
                             <td>
                                 @if($totalReviews > 10)
-                                    <p><strong>{{ $totalReviews }} reviews available!</strong></p>
+                                    <p>{{ $totalReviews }} reviews available!</p>
                                     <ul>
                                         @foreach ($hike->reviews as $review)
                                             @if($review->content && $review->user)
                                                 <li>
-                                                    <strong>{{ $review->user->name }}</strong>: {{ $review->content }} <br>
-                                                    <strong>Views:</strong> {{ $review->views ?? 0 }}
+                                                    {{ $review->user->name }}: {{ $review->content }} <br>
+                                                    Views: {{ $review->views ?? 0 }}
                                                 </li>
                                             @endif
                                         @endforeach
@@ -56,8 +59,8 @@
                                             @foreach ($hike->reviews as $review)
                                                 @if($review->content && $review->user)
                                                     <li>
-                                                        <strong>{{ $review->user->name }}</strong>: {{ $review->content }} <br>
-                                                        <strong>Views:</strong> {{ $review->views ?? 0 }}
+                                                        {{ $review->user->name }}: {{ $review->content }} <br>
+                                                        Views: {{ $review->views ?? 0 }}
                                                     </li>
                                                 @endif
                                             @endforeach
@@ -81,10 +84,10 @@
                                         @endif
                                     @endforeach
                                     @if(!$hasSuggestions)
-                                        <p>No suggestions</p>
+                                        No suggestions
                                     @endif
                                 @else
-                                    <p>No reviews</p>
+                                    No reviews
                                 @endif
                             </td>
                         </tr>
