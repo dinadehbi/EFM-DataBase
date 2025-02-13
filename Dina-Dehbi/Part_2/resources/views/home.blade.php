@@ -1,15 +1,16 @@
+@extends('layouts.app')
 @section('content')
-    <div>
+    <div class="container mt-5">
         @if($hikes->count())
-            <table>
-                <thead>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
                     <tr>
-                        <th>Titre</th>
-                        <th>Utilisateur</th>
-                        <th>Description</th>
-                        <th>Vues</th>
-                        <th>Recommandée</th>
-                        <th>Avis</th>
+                        <th scope="col">Titre</th>
+                        <th scope="col">Utilisateur</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Vues</th>
+                        <th scope="col">Recommandée</th>
+                        <th scope="col">Avis</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -22,14 +23,14 @@
                                 <td>{{ $hike->views ?? 0 }}</td>
                                 <td>
                                     @if($hike->isRecommended)
-                                        <span class="green">Randonnée Recommandée</span>
+                                        <span class="badge badge-success">Randonnée Recommandée</span>
                                     @else
-                                        <span class="red">Non recommandée</span>
+                                        <span class="badge badge-danger">Non recommandée</span>
                                     @endif
                                 </td>
                                 <td>
                                     @if($hike->reviews->count())
-                                        <ul>
+                                        <ul class="list-unstyled">
                                             @foreach ($hike->reviews as $review)
                                                 @if($review->content && $review->user)
                                                     <li>
@@ -40,7 +41,7 @@
                                             @endforeach
                                         </ul>
                                     @else
-                                        Pas d'avis
+                                        <p>Pas d'avis</p>
                                     @endif
                                 </td>
                             </tr>
@@ -49,11 +50,12 @@
                 </tbody>
             </table>
         @else
-            <p>Aucune randonnée disponible.</p>
+            <p class="text-center">Aucune randonnée disponible.</p>
         @endif
     </div>
 @endsection
 
 @section('head')
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/home.blade.css') }}" rel="stylesheet">
 @endsection
